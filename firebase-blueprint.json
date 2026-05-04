@@ -1,0 +1,74 @@
+{
+  "entities": {
+    "User": {
+      "title": "User Profile",
+      "description": "Stores user profile information and global settings.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "email": { "type": "string" },
+        "displayName": { "type": "string" },
+        "photoURL": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "email"]
+    },
+    "StepProgress": {
+      "title": "LFS Step Progress",
+      "description": "Tracks progress of a specific LFS step for a user.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "stepId": { "type": "integer" },
+        "completedSubSteps": { "type": "array", "items": { "type": "string" } },
+        "isCompleted": { "type": "boolean" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "stepId", "isCompleted"]
+    },
+    "QuizResult": {
+      "title": "Quiz Result",
+      "description": "Stores results of quizzes taken by the user.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "stepId": { "type": "integer" },
+        "score": { "type": "integer" },
+        "totalQuestions": { "type": "integer" },
+        "completedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "stepId", "score", "totalQuestions"]
+    },
+    "Certificate": {
+      "title": "Certificate",
+      "description": "Stores issued certificates for completed courses.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "certificateId": { "type": "string" },
+        "issuedAt": { "type": "string", "format": "date-time" },
+        "userName": { "type": "string" }
+      },
+      "required": ["userId", "certificateId", "issuedAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profile document."
+    },
+    "/users/{userId}/progress/{stepId}": {
+      "schema": "StepProgress",
+      "description": "Progress for a specific LFS step."
+    },
+    "/users/{userId}/quizzes/{quizId}": {
+      "schema": "QuizResult",
+      "description": "Results for a specific quiz."
+    },
+    "/certificates/{certificateId}": {
+      "schema": "Certificate",
+      "description": "Publicly accessible certificate for verification."
+    }
+  }
+}
